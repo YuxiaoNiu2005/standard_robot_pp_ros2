@@ -17,6 +17,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #######################
 
 find_package(ament_cmake_auto REQUIRED)
+find_package(pb_rm_interfaces REQUIRED)
+find_package(auto_aim_interfaces REQUIRED)
 ament_auto_find_build_dependencies()
 
 ###########
@@ -25,6 +27,11 @@ ament_auto_find_build_dependencies()
 
 ament_auto_add_library(${PROJECT_NAME} SHARED
   DIRECTORY src
+)
+
+ament_target_dependencies(${PROJECT_NAME}
+  pb_rm_interfaces
+  auto_aim_interfaces
 )
 
 rclcpp_components_register_node(${PROJECT_NAME}
@@ -59,4 +66,5 @@ ament_auto_package(
   INSTALL_TO_SHARE
   config
   launch
+  USE_SCOPED_HEADER_INSTALL_DIR
 )
