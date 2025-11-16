@@ -2,6 +2,7 @@
 Checks:          '-*,
                   performance-*,
                   -performance-unnecessary-value-param,
+                  -performance-enum-size,
                   llvm-namespace-comment,
                   modernize-redundant-void-arg,
                   modernize-use-nullptr,
