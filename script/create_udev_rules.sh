@@ -7,10 +7,12 @@ echo "This script copies a udev rule to /etc/udev/rules.d to facilitate bringing
 echo ""
 
 UDEV_RULES_FILE="/etc/udev/rules.d/99-RoboMaster_C_Board.rules"
-UDEV_RULE='SUBSYSTEMS=="usb", KERNEL=="ttyACM*", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", SYMLINK+="ttyACM0", MODE="0777"'
+UDEV_RULE_ACM='SUBSYSTEMS=="usb", KERNEL=="ttyACM*", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", SYMLINK+="ttyACM0", MODE="0777"'
+UDEV_RULE_USB='SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", SYMLINK+="ttyUSB0", MODE="0777"'
 
 echo "Setting udev rules..."
-echo "$UDEV_RULE" | sudo tee $UDEV_RULES_FILE > /dev/null
+echo "$UDEV_RULE_ACM" | sudo tee $UDEV_RULES_FILE > /dev/null
+echo "$UDEV_RULE_USB" | sudo tee -a $UDEV_RULES_FILE > /dev/null
 
 echo "Restarting udev..."
 sudo service udev reload
