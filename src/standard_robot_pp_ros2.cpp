@@ -120,9 +120,12 @@ void StandardRobotPpRos2Node::createSubscription()
   cmd_shoot_sub_ = this->create_subscription<example_interfaces::msg::UInt8>(
     "cmd_shoot", 10,
     std::bind(&StandardRobotPpRos2Node::cmdShootCallback, this, std::placeholders::_1));
-  // cmd_tracking_sub_ = this->create_subscription<auto_aim_interfaces::msg::Target>(
-  //   "tracker/target", 10,
-  //   std::bind(&StandardRobotPpRos2Node::visionTargetCallback, this, std::placeholders::_1));
+    
+  rclcpp::QoS qos_profile(10);
+  qos_profile.reliability(rclcpp::ReliabilityPolicy::BestEffort);
+  cmd_tracking_sub_ = this->create_subscription<auto_aim_interfaces::msg::Target>(
+    "/tracker/target", qos_profile,
+    std::bind(&StandardRobotPpRos2Node::visionTargetCallback, this, std::placeholders::_1));
   
 }
 
@@ -752,8 +755,8 @@ void StandardRobotPpRos2Node::cmdGimbalJointCallback(
 void StandardRobotPpRos2Node::visionTargetCallback(
   const auto_aim_interfaces::msg::Target::SharedPtr msg)
 {
-  send_robot_cmd_data_.data.shoot.fric_on = (uint8_t)msg->tracking;
-
+  send_robot_cmd_data_.data.shoot.fric_on = msg->tracking;
+  // RCLCPP_INFO(get_logger(), "Tracking: %d", send_robot_cmd_data_.data.shoot.fric_on);
 }
 
 void StandardRobotPpRos2Node::cmdShootCallback(const example_interfaces::msg::UInt8::SharedPtr msg)
