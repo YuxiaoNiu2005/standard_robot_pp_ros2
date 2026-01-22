@@ -14,6 +14,7 @@
 
 #include "standard_robot_pp_ros2/standard_robot_pp_ros2.hpp"
 
+#include <cstdint>
 #include <memory>
 
 #include "standard_robot_pp_ros2/crc8_crc16.hpp"
@@ -750,13 +751,16 @@ void StandardRobotPpRos2Node::cmdGimbalJointCallback(
 void StandardRobotPpRos2Node::visionTargetCallback(
   const auto_aim_interfaces::msg::Target::SharedPtr msg)
 {
-  send_robot_cmd_data_.data.tracking.tracking = msg->tracking;
+  send_robot_cmd_data_.data.shoot.fric_on = (uint8_t)msg->tracking;
+
 }
 
 void StandardRobotPpRos2Node::cmdShootCallback(const example_interfaces::msg::UInt8::SharedPtr msg)
 {
-  send_robot_cmd_data_.data.shoot.fric_on = true;
+  // send_robot_cmd_data_.data.shoot.fric_on = true;
   send_robot_cmd_data_.data.shoot.fire = msg->data;
+  // send_robot_cmd_data_.data.shoot.fric_on = send_robot_cmd_data_.data.tracking.tracking;
+
 }
 
 void StandardRobotPpRos2Node::setParam(const rclcpp::Parameter & param)

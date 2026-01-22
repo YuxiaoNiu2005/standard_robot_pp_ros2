@@ -65,7 +65,7 @@ def generate_launch_description():
 
     declare_namespace_cmd = DeclareLaunchArgument(
         "namespace",
-        default_value="",
+        default_value="serial_comm",
         description="Top-level namespace",
     )
 
@@ -103,6 +103,7 @@ def generate_launch_description():
     bringup_cmd_group = GroupAction(
         [
             PushRosNamespace(namespace),
+            # 让robot_state_publisher发布到命名空间内的tf话题，避免与导航包的tf冲突
             SetRemap("/tf", "tf"),
             SetRemap("/tf_static", "tf_static"),
             IncludeLaunchDescription(
