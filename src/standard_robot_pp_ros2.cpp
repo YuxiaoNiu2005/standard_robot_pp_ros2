@@ -120,9 +120,10 @@ void StandardRobotPpRos2Node::createSubscription()
   cmd_shoot_sub_ = this->create_subscription<example_interfaces::msg::UInt8>(
     "cmd_shoot", 10,
     std::bind(&StandardRobotPpRos2Node::cmdShootCallback, this, std::placeholders::_1));
-  cmd_tracking_sub_ = this->create_subscription<auto_aim_interfaces::msg::Target>(
-    "tracker/target", 10,
-    std::bind(&StandardRobotPpRos2Node::visionTargetCallback, this, std::placeholders::_1));
+  // cmd_tracking_sub_ = this->create_subscription<auto_aim_interfaces::msg::Target>(
+  //   "tracker/target", 10,
+  //   std::bind(&StandardRobotPpRos2Node::visionTargetCallback, this, std::placeholders::_1));
+  
 }
 
 void StandardRobotPpRos2Node::getParams()
